@@ -8,7 +8,11 @@ class Calculator:
         self.last_result = 0
 
     def get_hello_message(self):
-        """ Show welcome message """
+        """ 
+        Show welcome message for the calculator application. 
+        The username is always extracted from the first line of the .env file. 
+        This code would have to be expanded if we were to support multiple variables. 
+        """
         message = "== Calculatrice v1.0 ==\n"
         with open(".env", "+r") as file:
             content = file.read()
