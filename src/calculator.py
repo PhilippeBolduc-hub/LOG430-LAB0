@@ -9,10 +9,13 @@ class Calculator:
 
     def get_hello_message(self):
         """ Show welcome message """
-        message = "== Calculatrice v1.0 =="
+        message = "== Calculatrice v1.0 ==\n"
         with open(".env", "+r") as file:
             content = file.read()
-            message += content.split("=")[1]
+            content_parts = content.split("=")
+            if len(content_parts) == 2:
+                username = content_parts[1]
+                message += f"Bienvenu(e) {username}\n"
         return message
 
     def addition(self, v1, v2):
@@ -54,4 +57,3 @@ if __name__ == "__main__":
         is_running = int(input("Voulez-vous faire une autre addition ? [1 = Oui | 2 = Non] : "))
 
     print("Au revoir :)")
-    print("test")
