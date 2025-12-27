@@ -1,6 +1,6 @@
 # Labo 00 – Infrastructure (Git, Docker, CI/CD)
 <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Ets_quebec_logo.png" width="250">    
-ÉTS - LOG430 - Architecture logicielle - Chargé de laboratoire: Gabriel C. Ullmann, Automne 2025.    
+ÉTS - LOG430 - Architecture logicielle - Chargé de laboratoire: Gabriel C. Ullmann.
 
 ## 🎯 Objectifs d'apprentissage
 - Apprendre à créer un projet **Python** conteneurisé avec **Docker** à partir de zéro.
@@ -13,9 +13,9 @@
 
 Dans ce laboratoire, vous travaillerez sur une application calculatrice. Cette calculatrice est volontairement très simple afin que nous puissions nous concentrer sur la configuration et la structure du projet, ainsi que sur la création d'un pipeline CI/CD. 
 
-Vous allez créer la structure du projet vous-même à partir de zéro, en créant le `requirements.txt`, `Dockerfile`, `docker-compose.yml`, `.env` et `config.py`. Chaque activité vous guidera dans une étape de setup, puis l'implémentation. Il est très important de réaliser ce laboratoire car:
-- Les concepts que vous apprendrez ici vous aideront dans **TOUS** les laboratoires suivants.
-- Les concepts architecturaux et les pratiques de développement que vous apprenez ici peuvent être appliqués au projet, dans n'importe quel langage de programmation ou framework.
+Vous allez créer la structure du projet vous-même à partir de zéro, en créant le `requirements.txt`, `Dockerfile`, `docker-compose.yml` et `.env`. Chaque activité vous guidera dans une étape de setup, puis l'implémentation. Il est très important de réaliser ce laboratoire car:
+- Les concepts que vous apprendrez ici (ex. le setup Python et Docker, les approches de test et déploiement, etc) vous aideront à mieux comprendre **TOUS** les laboratoires suivants.
+- Les concepts architecturaux et les pratiques de développement que vous apprenez ici peuvent être appliqués au projet, **dans n'importe quel langage de programmation ou framework**.
 
 Dans les prochains laboratoires, nous verrons des architectures plus complexes et nous travaillerons avec une variété d'outils logiciels et de concepts architecturaux.
 
