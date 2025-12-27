@@ -14,7 +14,7 @@ class Calculator:
         This code would have to be expanded if we were to support multiple variables. 
         """
         message = "== Calculatrice v1.0 ==\n"
-        with open(".env", "+r") as file:
+        with open(".env", "r") as file:
             content = file.read()
             content_parts = content.split("=")
             if len(content_parts) == 2:
