@@ -26,7 +26,8 @@ jobs:
           pip install -r requirements.txt
           pip install pytest
 
-      - name: Tests
-        working-directory: src
+      - name: Éxécuter les tests
+        env:
+          PYTHONPATH: ${{ github.workspace }}/src
         run: | 
           python -m pytest tests/
