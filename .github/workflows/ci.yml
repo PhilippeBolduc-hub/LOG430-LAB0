@@ -29,4 +29,4 @@ jobs:
       - name: Tests
         working-directory: src
         run: | 
-          python -m pytest 
+          python -m pytest tests/
