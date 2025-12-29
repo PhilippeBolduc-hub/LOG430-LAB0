@@ -27,7 +27,7 @@ Dans les prochains laboratoires, nous verrons des architectures plus complexes e
 
 ```bash
 git clone https://github.com/[votrenom]/log430-labo0
-cd log430-a25-labo0
+cd log430-labo0
 ```
 
 ### 2. Créez votre fichier requirements.txt
