@@ -148,7 +148,7 @@ Dans le cours LOG430, nous utiliserons des VMs créées dans [LXD](https://canon
 
 ### 5. Installez le client LXD
 
-Le client LXD est disponible pour Windows, macOS et Linux.
+Nous utiliserons [lxc](https://documentation.ubuntu.com/lxd/latest/reference/manpages/lxc/), un client LXD disponible pour Windows, macOS et Linux.
 
 Installez sur Windows via `chocolatey` :
 ```sh
@@ -165,7 +165,7 @@ Installez sur macOS via `brew` :
 brew install lxc
 ```
 
-Pour ajouter les deux serveurs LXD, connectez-vous au VPN et exécutez :
+Pour ajouter les deux serveurs LXD, connectez-vous au **VPN** et exécutez :
 ```sh
 lxc remote add fiware-1.logti.etsmtl.ca
 lxc remote add fiware-2.logti.etsmtl.ca
@@ -176,78 +176,27 @@ Ces commandes demanderont un jeton chacune. Demandez votre jeton au chargé de l
 > 📝 **NOTE** : Ce sont des jetons à usage unique. Par conséquent, lorsqu'une personne intègre un serveur dans son client LXD, le jeton est annulé et ne peut plus être utilisé pour ajouter un second client.
 
 ### 6. Créez des VMs dans votre serveur LXD
-Pour créer une VM dans le serveur `fiware-1.logti.etsmtl.ca`, par exemple :
+Pour créer une VM sur le serveur `fiware-1.logti.etsmtl.ca`, exécutez `lxc remote switch` et `lxc launch`. Dans l'exemple ci-dessus, remplacez `vm-test1` par le nom que vous voulez donner à votre VM :
 ```sh
-lxc launch images:ubuntu/22.04 vm-test1 --remote fiware-1.logti.etsmtl.ca
+lxc remote switch fiware-1.logti.etsmtl.ca
+lxc launch ubuntu:jammy vm-test1
 ```
 
-Remplacez `vm-test1` par le nom que vous voulez donner à votre VM.
-
-#### 6.1. Vérifier la création de la VM
-
-Pour voir la liste de VMs sur le serveur :
+Pour voir la liste des machines virtuelles sur le serveur avec leur adresse IP et leur statut :
 
 ```bash
-lxc list --remote fiware-1.logti.etsmtl.ca
+lxc list
 ```
 
-#### 6.2. Obtenir l'adresse IP de la VM
+Pour accèder à la VM :
 
 ```bash
-lxc list --remote fiware-1.logti.etsmtl.ca
+lxc exec vm-test1 -- bash
 ```
 
-Notez l'adresse IP de votre VM (colonne IPV4).
+Si vous le souhaitez, vous pouvez également configurer [l'accès SSH](https://linuxconfig.org/linux-setup-ssh) dans votre VM au cours de cette étape. Cependant, assurez-vous d'abord que vous pouvez atteindre l'adresse IP de la VM à laquelle vous souhaitez accéder.
 
-Exemple de sortie :
-```sh
-| vm-test1 | RUNNING | 10.99.0.50 (eth0) | ... |
-```
-
-#### 6.3. Configurer SSH dans la VM
-
-Accédez à la VM pour installer et configurer SSH :
-
-```bash
-lxc exec vm-test1 --remote fiware-1.logti.etsmtl.ca -- bash
-```
-
-Puis à l'intérieur de la VM, exécutez :
-
-```bash
-apt update
-apt install openssh-server -y
-```
-
-#### 6.4. Créer une clé SSH (sur votre machine locale)
-
-Si vous n'avez pas encore de clé SSH :
-
-```bash
-ssh-keygen -t rsa -b 4096 -f ~/.ssh/lxd_key
-```
-
-Appuyez sur `Enter` pour accepter les paramètres par défaut.
-
-#### 6.5. Copier la clé publique dans la VM
-
-Depuis votre machine locale :
-
-```bash
-lxc file push ~/.ssh/lxd_key.pub vm-test1/root/.ssh/authorized_keys --remote fiware-1.logti.etsmtl.ca
-```
-
-#### 6.6. Configurer les permissions SSH
-
-À l'intérieur de la VM (via la commande `exec` de l'étape 6.3) :
-
-```bash
-chmod 600 ~/.ssh/authorized_keys
-systemctl enable ssh
-systemctl start ssh
-```
-
-#### 6.7. Annexe : commandes utiles pour les serveurs distants
+#### 6.1. Annexe : commandes utiles
 
 ```bash
 # Arrêter une VM
@@ -271,19 +220,7 @@ lxc file pull vm-test1/root/fichier.txt ./fichier.txt --remote fiware-1.logti.et
 
 ### 7. Déployez votre application manuellement
 
-Depuis votre machine locale (vous devez être connecté au VPN), exécutez :
-
-```sh
-ssh -i ~/.ssh/lxd_key root@<IP_DE_LA_VM>
-```
-
-Remplacez `<IP_DE_LA_VM>` par l'adresse IP obtenue à l'étape 6.2. Exemple :
-
-```sh
-ssh -i ~/.ssh/lxd_key root@10.99.0.50
-```
-
-Une fois que vous êtes connecté, déployez l'application sur la VM manuellement. N'oubliez pas d'installer Python, Docker et toutes les dépendances nécessaires sur la VM :
+Une fois que vous êtes connecté à la VM, déployez l'application sur la VM manuellement. N'oubliez pas d'installer Python, Docker et toutes les dépendances nécessaires sur la VM :
 
 ```sh
 git clone https://github.com/[votre-nom]/log430-labo0
@@ -298,9 +235,9 @@ top       # Vérifier l'utilisation du CPU et les processus en cours
 df -h     # Vérifier l'espace disque disponible
 ```
 
-> 📝 **NOTE** : Si vous avez des problèmes de performance avec votre VM (par exemple, une VM lente ou bloquée), essayez de l'arrêter et de la redémarrer, ou de la recréer. Si cela ne fonctionne pas, faites-moi signe.
+> 📝 **NOTE** : Si vous avez des problèmes de performance avec votre VM (par exemple, une VM lente ou bloquée), essayez de l'arrêter et de la redémarrer, ou de la recréer. Si cela ne fonctionne pas, parlez au chargé de lab.
 
-> 💡 **Question 3** : Quel type d'informations pouvez-vous obtenir via la commande « top » ? Veuillez inclure la sortie du terminal dans votre réponse.
+> 💡 **Question 3** : Quel type d'informations pouvez-vous obtenir via la commande « top » ? Veuillez donner quelques exemples. Veuillez inclure la sortie du terminal dans votre réponse.
 
 ### 8. Automatisez le déploiement continu (CD)
 
