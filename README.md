@@ -209,7 +209,7 @@ lxc delete vm-test1
 lxc start vm-test1
 
 # Voir les logs d'une VM
-lxc logs vm-test1
+lxc console vm-test1 --show-log
 
 # Copier des fichiers vers la VM
 lxc file push fichier.txt vm-test1/root/
