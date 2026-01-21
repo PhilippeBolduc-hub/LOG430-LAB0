@@ -1,33 +1,25 @@
-name: example_CI
+name: Deploy Calculator App
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    environment: Labo0
+  deploy:
+    runs-on: self-hosted
 
     steps:
-      - name: Checkout dépot
+      - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Créer fichier .env 
+      - name: Build Docker container
         run: |
-          echo "CALCULATOR_USERNAME=GithubActions" >> .env
+          cd ~/LOG430-LAB0
+          docker build -t calculatrice .
 
-      - name: Installer Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-
-      - name: Installer les dépendances
+      - name: Restart container
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install pytest
-
-      - name: Éxécuter les tests
-        env:
-          PYTHONPATH: ${{ github.workspace }}/src
-        run: | 
-          python -m pytest
+          docker stop calc-app || true
+          docker rm calc-app || true
+          docker run -d --name calc-app -p 8080:8080 calculatrice
